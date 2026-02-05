@@ -1,5 +1,18 @@
+---
+marp: true
+theme: default
+class: invert
+---
+<style>
+section {
+  font-size: 24px;
+}
+</style>
+
 # Embedded Devops on Day One
 First Steps to a High-Quality Project and the Easy Way
+
+---
 
 ## Who's Presenting
 ### Mike Thielvoldt
@@ -11,6 +24,8 @@ First Steps to a High-Quality Project and the Easy Way
 
 #### Translation --> I have many tech-debt battle scars, but fully accept that startups need to be lean and fast.
 
+---
+
 ## Roadmap
 1. Measure up the project
 1. Make some hard choices
@@ -20,6 +35,8 @@ First Steps to a High-Quality Project and the Easy Way
 1. Put your hardware in the loop (the hard part)
 1. Share it out
 
+---
+
 ## Glossary
 **CI**: Continuous Integration: Coders frequently contribute changes to a central repository, which triggers builds tests in the cloud to reveal issues early.\
 **MCU**: Microcontroller.\
@@ -27,6 +44,8 @@ First Steps to a High-Quality Project and the Easy Way
 **Release**: A formal distribution of a specific, tested version of firmware to users.\
 **Regression**: A release breaks something that wasn’t broken before.\
 **Onboarding**: Enabling a new team member to become an effective contributor. \
+
+---
 
 ## Measure up the Project
 - How big/complex?
@@ -38,6 +57,8 @@ First Steps to a High-Quality Project and the Easy Way
     - Level of trust in colleagues? -> How police-like should CI be?
     - Experience working in big teams? -> Version control guidance, code style enforcement?
     - Seniority/skill level? -> A-la-carte (configurable) tools vs batteries-included. 
+
+---
 
 ## What We're Going For
 
@@ -72,6 +93,8 @@ First Steps to a High-Quality Project and the Easy Way
     </tr>
 </table>
 
+---
+
 ## Choices: Flavor of version control (scm)
 ### Options
 - No version control, manual name-mangling 
@@ -84,6 +107,7 @@ First Steps to a High-Quality Project and the Easy Way
 - Learning is tolerable: it's what we're here for.
 ### Decision ⇨ *Git (CLI for power-use)*
 
+---
 
 ## Choices: Where to put `origin`?
 ### Options (among many)
@@ -96,6 +120,7 @@ First Steps to a High-Quality Project and the Easy Way
 - Mike happens to know github actions best.
 ### Decision ⇨ *Github*
 
+---
 
 ## Choices: How should we use Git (workflow)?
 ### Options
@@ -104,28 +129,40 @@ First Steps to a High-Quality Project and the Easy Way
 - [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
   - Ephemeral topic branches, and 3 or more long-running branches: `main`, `develop`, `release`, [ `hotfix`… ]
   - New code flows (eventually) from topic > `develop` > `release` > `main` with progressively more time-consuming tests or reviews at each step.
-### Forces
-- Our coders do their own QA ➡ This lets us keep things simple and focused. Below is the problem with Trunk-based for QA teams:
+
+---
+
+## Choices: How should we use Git (workflow)?
+Aside: Trunk-based with ineffective tests is hell for QA teams
 
 ![](images/git-workflows-2.png)
-- We’d prefer to not have time-consuming manual tests at all, rather than risk merge-hell to accommodate them.
+
+---
+
+## Choices: How should we use Git (workflow continued)?
+
+### Forces
+- Our coders do their own QA ➡ Simple and focused should work best.
+- We’d prefer to not have time-consuming manual tests at all, so not creating a shelter for them can be a "feature".
+- We risk merge-hell with several long-running branches.
+
 ### Decision ⇨ *Trunk-based flow*
 
+---
 
 ## Choices: When do we do Quality Control?
 ### Options
-1. We don't; that's QA's job.
-2. We test things when we think we should (ad-hoc). 
+1. We test things when we think we should (ad-hoc). 
+2. We use PRs as a vehicle for driving tests before affecting `main`.
 3. Tests auto-run once new commits hit `main`.
-4. We use PRs as a vehicle for driving tests before affecting `main`.
-5. We have tests run on all branches every push.
-6. The bots figure it out. 
+4. We have tests run on all branches every push.
+5. The bots figure it out. 
 ### Forces
-- We're the QA team; can't pass it off.
-- We're not as good as robots as 
-- We hate 
-### Decision ⇨ *2 (as desired), 3 (PR), and 4 (main)*
+- If projects get too inter-connected, it's too hard to remember to test.
+- It takes much longer to find a bug that was written long ago. 
+### Decision ⇨ *1 (as needed), 2 (PR), and 3 (main)*
 
+---
 
 ## Choices: What test infra should we build now?
 ### Options
@@ -136,10 +173,11 @@ First Steps to a High-Quality Project and the Easy Way
 ### Forces
 - If hardware isn't available, 4 and 5 aren't doable
 - If hardware designs aren't stable, 4 and 5 are perishable efforts/maintenance items.
-- If our hardware isn't built to sit online, we either need gateway hardware, or to do this outside CI.
+- If our HW doesn't have a TCP stack, we either need gateway hardware, or to do this outside CI.
 - Doing things in sim require skill to make them relevant, and don't guarantee confidence.
 ### Decision ⇨ *Start with 1, 2.  Make 4 a reach-goal*
 
+---
 
 ## Choices: How should customers access new FW versions?
 ### Options
@@ -152,10 +190,26 @@ First Steps to a High-Quality Project and the Easy Way
 - Bugs will still happen.  If our release process is light-weight, we can respond quickly when our customers encounter them.  That'll build inter-team trust.
 ### Decision ⇨ *Set up github releases*
 
+---
+
 ## A To-do list
+<style scoped>
+  section {
+  }
+  p {
+    font-size: 24px;
+  }
+  table {
+    height: 100%;
+    width: 100%;
+    font-size: 13px;
+  }
+</style>
 From here on, we'll move down the table below, advancing by `git cherry-pick <next-commit>`.
 
-<table>
+
+
+<table style="font-size: 10px;">
     <tr>
         <th>Number</th>
         <th>Deliverable</th>
