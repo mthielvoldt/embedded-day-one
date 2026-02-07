@@ -249,7 +249,7 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
 - If hardware isn't available, 3 and 4 aren't doable
 - If hardware designs aren't stable, 3 and 4 are perishable efforts/maintenance items
 - If our HW doesn't have a TCP stack, we either need gateway hardware, or to do this outside CI
-- Doing things in sim require skill to make them relevant, and don't guarantee confidence
+- Simulation takes up-front effort; you need evidence it represents reality.
 ### Decision ⇨ *Start with 1, 2.  Make 4 a reach-goal*
 
 ---
@@ -295,7 +295,7 @@ From here on, we'll move down the table below, advancing by `git cherry-pick <ne
         <td>1</td>
         <td>Using Git</td>
         <td>
-            - Git onboarding doc.<br>
+            - Onboarding doc. covers git<br>
             - Works for full team.
         </td>
     </tr>
