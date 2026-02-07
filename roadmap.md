@@ -273,17 +273,20 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
   section {
   }
   p {
-    font-size: 24px;
+    font-size: 22px;
   }
   table {
     height: 100%;
     width: 100%;
     font-size: 13px;
   }
+  .done {
+    text-decoration: line-through;
+    color: #689;
+  }
 </style>
-From here on, we'll move down the table below, advancing by `git cherry-pick <next-commit>`
 
-
+From here on, we'll move down this table using our PR Process.
 
 <table style="font-size: 10px;">
     <tr>
@@ -295,39 +298,46 @@ From here on, we'll move down the table below, advancing by `git cherry-pick <ne
         <td>1</td>
         <td>Using Git</td>
         <td>
-            - Onboarding doc. covers git<br>
-            - Works for full team.
+            <ul>
+                <li class="done">Onboarding doc covers git
+                <li>Works for full team
+            </ul>
         </td>
     </tr>
     <tr>
         <td>2</td>
         <td>Using Github</td>
         <td>
-            - Docs cover getting access.<br>
-            - Everyone can push a branch.
+            <ul>
+                <li class="done">Docs cover getting access
+                <li>Everyone can push a branch
+            </ul>
         </td>
     </tr>
     <tr>
         <td>3</td>
         <td>Trunk-based flow</td>
         <td>
-            - Docs cover PR process.
+            <ul>
+                <li class="done">Docs cover PR process
+                <li>Everyone has a look
+            </ul>
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>4</td>
         <td>Tests runnable as desired</td>
         <td>
-            A <code>bootstrap</code> script installs software for tests.<br>
-            A <code>run-tests</code> script works locally for everyone.
+            A <code>bootstrap.sh</code> installs software for tests.<br>
+            A <code>run-tests.sh</code> works locally for everyone.
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>5</td>
         <td>Tests run on PR and main</td>
         <td>We see check-marks on main and PRs</td>
     </tr>
-    <tr>
+    <tr class="">
         <td>6</td>
         <td>Unit Tests</td>
         <td>
@@ -335,7 +345,7 @@ From here on, we'll move down the table below, advancing by `git cherry-pick <ne
             - <code>run-tests</code> compiles and tests one .c file
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>7</td>
         <td>CI build check</td>
         <td>
@@ -344,7 +354,7 @@ From here on, we'll move down the table below, advancing by `git cherry-pick <ne
             - <code>generate</code> builds in CI.
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>8</td>
         <td>On-hardware automated test</td>
         <td>
@@ -352,7 +362,7 @@ From here on, we'll move down the table below, advancing by `git cherry-pick <ne
             - A scripted test that checks for echo.
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>9</td>
         <td>Github releases</td>
         <td>
