@@ -326,27 +326,24 @@ From here on, we'll move down this table using our PR Process.
     </tr>
     <tr class="">
         <td>4</td>
-        <td>Tests runnable as desired</td>
+        <td>Tests run locally, on PR, and <code>main</code></td>
         <td>
-            A <code>bootstrap.sh</code> installs software for tests.<br>
-            A <code>run-tests.sh</code> works locally for everyone.
+            <ul>
+                <li><code>run-tests.sh</code> runs locally for everyone</li>
+                <li>We see check-marks on main and PRs</li>
+            </ul>
         </td>
     </tr>
     <tr class="">
         <td>5</td>
-        <td>Tests run on PR and main</td>
-        <td>We see check-marks on main and PRs</td>
-    </tr>
-    <tr class="">
-        <td>6</td>
         <td>Unit Tests</td>
         <td>
-            - <code>bootstrap</code> installs test prerequisites<br>
+            - <code>bootstrap.sh</code> installs unit test prerequisites<br>
             - <code>run-tests</code> compiles and tests one .c file
         </td>
     </tr>
     <tr class="">
-        <td>7</td>
+        <td>6</td>
         <td>CI build check</td>
         <td>
             - <code>bootstrap</code> Installs cross-compiler.<br>
@@ -355,7 +352,7 @@ From here on, we'll move down this table using our PR Process.
         </td>
     </tr>
     <tr class="">
-        <td>8</td>
+        <td>7</td>
         <td>On-hardware automated test</td>
         <td>
             - Code that enables comms to/from MCU.<br>
@@ -363,7 +360,7 @@ From here on, we'll move down this table using our PR Process.
         </td>
     </tr>
     <tr class="">
-        <td>9</td>
+        <td>8</td>
         <td>Github releases</td>
         <td>
             - Make a release that exports build artifacts.<br>
