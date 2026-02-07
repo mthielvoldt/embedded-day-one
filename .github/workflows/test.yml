@@ -1,0 +1,30 @@
+# Simple workflow for running unit tests and checking that project builds
+name: Test workflow
+
+on:
+  # Runs on pushes to main
+  push:
+    branches: 
+      - 'main'
+
+  # Run on updates to pull requests that target main
+  pull_request:
+    branches:
+      - 'main'
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  unit-test:
+    runs-on: ubuntu-24.04
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Run Tests
+        run: . run-tests.sh
