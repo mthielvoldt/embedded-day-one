@@ -5,6 +5,7 @@ VERSION=15.2.Rel1
 OS="$(uname -s)"
 ARCH="$(uname -m)"
 
+echo "Getting arm toolchain..."
 
 case "$ARCH" in
   x86_64|amd64)

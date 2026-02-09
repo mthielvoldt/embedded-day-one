@@ -20,7 +20,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run Tests
-        run: ./run-tests
+        run: |
+          ./bootstrap
+          ./run-tests
 
   unit-test-windows:
     runs-on: windows-latest
@@ -28,7 +30,9 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run Tests
-        run: .\run-tests
+        run: |
+          .\bootstrap
+          .\run-tests
 
   unit-test-mac:
     runs-on: macos-latest
@@ -36,12 +40,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Run Tests
-        run: ./run-tests
+        run: |
+          ./bootstrap
+          ./run-tests
   
-  build-ubuntu:
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Build
-        run: ./generate
