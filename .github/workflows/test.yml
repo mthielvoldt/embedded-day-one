@@ -39,3 +39,11 @@ jobs:
         uses: actions/checkout@v4
       - name: Run Tests
         run: ./run-tests
+  
+  build-ubuntu:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: ./generate
