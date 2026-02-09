@@ -1,11 +1,16 @@
 # For New Developers
 
-## Install Git
+## Manual Software Installs
+These baseline tools are required to access the code and run the bootstrap scripts, which do the rest of the setup.
+
+### Visual Studio Code
+Our suggested editor for all platforms: [VS Code](https://code.visualstudio.com/download)
 
 ### Windows
-[Download v2.53.0](https://github.com/git-for-windows/git/releases/download/v2.53.0.windows.1/Git-2.53.0-64-bit.exe)
 
-Important options to pick
+#### Git
+[Download git v2.53.0](https://github.com/git-for-windows/git/releases/download/v2.53.0.windows.1/Git-2.53.0-64-bit.exe)
+ then install, selecting the following important options:
 
 <table>
     <tr>
@@ -26,6 +31,9 @@ Important options to pick
     </tr>
 </table>
 
+#### MSYS2
+Our team focuses on unix-style scripts to keep effort reasonable.  For this strategy to work on Windows, we use MSYS2. Follow the **Installation** instructions at https://www.msys2.org
+
 ### Mac
 ```
 brew install git
@@ -37,6 +45,7 @@ apt install git
 
 ## Initial Config
 All the folloing commands are in bash, (or git bash on Windows)
+
 ### name and email for commits
 To get "credit" for your work on github, your email should match the one you used to create your account in github.
 ```
