@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+
+VERSION=15.2.Rel1
+
+OS="$(uname -s)"
+ARCH="$(uname -m)"
+
+
+case "$ARCH" in
+  x86_64|amd64)
+    ARCH=x86_64
+    ;;
+  aarch64|arm64)
+    ARCH=arm64
+    ;;
+  *)
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+    ;;
+esac
+
+
+
+if [ "$OS" = "Linux" ] && [ "$ARCH" = "arm64" ]; then
+  PLATFORM="aarch64"
+  EXTENSION="tar.xz"
+
+elif [ "$OS" = "Linux" ] && [ "$ARCH" = "x86_64" ]; then
+  PLATFORM="x86_64"
+  EXTENSION="tar.xz"
+
+elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
+  PLATFORM="darwin-arm64"
+  EXTENSION="tar.xz"
+
+elif [ "$OS" = "MINGW64" ]; then
+  PLATFORM="mingw-w64-x86_64"
+  EXTENSION="zip"
+
+else
+  echo "Unsupported arch/host-OS combination. $OS $ARCH"
+  exit 1
+fi 
+
+BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
+
+TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
+
+ASC_URL="$TOOLCHAIN_URL.asc"
+
+mkdir -p test
+wget -O "test/$PLATFORM.asc" "$ASC_URL"
+
+
+# curl -L "$URL" | tar -xJ
+# curl -L "$URL" -o toolchain.zip
+# unzip toolchain.zip
