@@ -41,3 +41,16 @@ jobs:
           submodules: 'true'
       - name: Run Tests
         run: .\run-tests
+
+  unit-test-mac:
+    runs-on: macos-latest
+    defaults:
+      run:
+        working-directory: .
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          submodules: 'true'
+      - name: Run Tests
+        run: ./run-tests
