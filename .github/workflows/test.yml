@@ -27,7 +27,7 @@ jobs:
         with:
           submodules: 'true'
       - name: Run Tests
-        run: ./run-tests.sh
+        run: ./run-tests
 
   unit-test-windows:
     runs-on: windows-latest
@@ -40,4 +40,4 @@ jobs:
         with:
           submodules: 'true'
       - name: Run Tests
-        run: C:\msys64\usr\bin\bash.exe -lc "./run-tests.sh"
+        run: .\run-tests
