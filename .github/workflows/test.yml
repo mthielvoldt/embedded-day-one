@@ -18,39 +18,24 @@ on:
 jobs:
   unit-test-ubuntu:
     runs-on: ubuntu-24.04
-    defaults:
-      run:
-        working-directory: .
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: 'true'
       - name: Run Tests
         run: ./run-tests
 
   unit-test-windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: 'true'
       - name: Run Tests
         run: .\run-tests
 
   unit-test-mac:
     runs-on: macos-latest
-    defaults:
-      run:
-        working-directory: .
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          submodules: 'true'
       - name: Run Tests
         run: ./run-tests
