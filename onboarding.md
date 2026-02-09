@@ -35,7 +35,7 @@ brew install git
 apt install git
 ```
 
-## Initial config
+## Initial Config
 All the folloing commands are in bash, (or git bash on Windows)
 ### name and email for commits
 To get "credit" for your work on github, your email should match the one you used to create your account in github.
@@ -73,7 +73,7 @@ Here's our standard workflow.  It's meant to be reasonably light but keep us out
 1. Create a branch
     ```sh
     git switch --create=example-branch-name
-    git push
+    git push -u origin HEAD
     ```
 1. Do work, adding commits...
     ```sh

@@ -5,16 +5,21 @@ class: invert
 ---
 <style>
 section {
-  font-size: 24px;
+    font-size: 24px;
 }
 img[alt~="top-right"] {
-  position: absolute;
-  top: 120px;
-  right: 60px;
+    position: absolute;
+    top: 120px;
+    right: 60px;
 }
-img[alt~="right"] {
-  position: absolute;
-  right: 80px;
+table.big-table {
+    height: 100%;
+    width: 100%;
+    font-size: 13px;
+}
+.done {
+    text-decoration: line-through;
+    color: #689;
 }
 </style>
 
@@ -275,26 +280,17 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
   p {
     font-size: 22px;
   }
-  table {
-    height: 100%;
-    width: 100%;
-    font-size: 13px;
-  }
-  .done {
-    text-decoration: line-through;
-    color: #689;
-  }
 </style>
 
 From here on, we'll move down this table using our PR Process.
 
-<table style="font-size: 10px;">
+<table class="big-table">
     <tr>
         <th>Number</th>
         <th>Deliverable</th>
         <th>Acceptance Criteria</th>
     </tr>
-    <tr>
+    <tr class="">
         <td>1</td>
         <td>Using Git</td>
         <td>
@@ -304,7 +300,7 @@ From here on, we'll move down this table using our PR Process.
             </ul>
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>2</td>
         <td>Using Github</td>
         <td>
@@ -314,7 +310,7 @@ From here on, we'll move down this table using our PR Process.
             </ul>
         </td>
     </tr>
-    <tr>
+    <tr class="">
         <td>3</td>
         <td>Trunk-based flow</td>
         <td>
@@ -329,26 +325,26 @@ From here on, we'll move down this table using our PR Process.
         <td>Tests run locally, on PR, and <code>main</code></td>
         <td>
             <ul>
-                <li><code>run-tests.sh</code> runs locally for everyone</li>
+                <li><code>run-tests</code> runs locally for everyone</li>
                 <li>We see check-marks on main and PRs</li>
             </ul>
         </td>
     </tr>
     <tr class="">
         <td>5</td>
-        <td>Unit Tests</td>
-        <td>
-            - <code>bootstrap.sh</code> installs unit test prerequisites<br>
-            - <code>run-tests</code> compiles and tests one .c file
-        </td>
-    </tr>
-    <tr class="">
-        <td>6</td>
-        <td>CI build check</td>
+        <td>Build checks for target MCU</td>
         <td>
             - <code>bootstrap</code> Installs cross-compiler.<br>
             - <code>generate</code> script builds the project locally <br>
             - <code>generate</code> builds in CI.
+        </td>
+    </tr>
+    <tr class="">
+        <td>6</td>
+        <td>Unit Tests</td>
+        <td>
+            - <code>bootstrap.sh</code> installs unit test prerequisites<br>
+            - <code>run-tests</code> compiles and tests one .c file
         </td>
     </tr>
     <tr class="">
@@ -368,3 +364,16 @@ From here on, we'll move down this table using our PR Process.
         </td>
     </tr>
 </table>
+
+---
+
+## Steps 1-3 Manual setup
+Requiring a little manual work up front can be expedient. 
+
+- Follow Manual Installs and Initial Config in `onboarding.md`
+- Test read access to repo:
+    ```git clone git@github.com:mthielvoldt/embedded-day-one.git``` 
+- Test write access by pushing a new branch:
+    ```git switch -c <unique-branch-name> && git push -u origin HEAD```
+- Review Pull Request Process, align
+
