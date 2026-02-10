@@ -78,3 +78,5 @@ else
   # strip the folder name so other programs don't need to know the version and platform to use it
   mv arm-gnu-toolchain* arm-gnu-toolchain
 fi
+
+arm-gnu-toolchain/bin/gcc --version
