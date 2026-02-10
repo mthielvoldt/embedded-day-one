@@ -19,6 +19,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Bootstrap
         run: ./bootstrap
       - name: Run Tests
@@ -29,6 +34,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Boostrap
         run: .\bootstrap
       - name: Run Tests
@@ -39,6 +49,11 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Bootstrap
         run: ./bootstrap
       - name: Run Tests
