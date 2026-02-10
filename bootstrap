@@ -64,12 +64,14 @@ else
 fi 
 
 BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
-
 TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
+
+if 
 
 mkdir -p $DEST
 cd $DEST
-if [ "$EXTENSION" = "zip" ]; then
+if [ "$OS" = "windows" ]; then
+  pacman -S unzip
   wget -O toolchain.zip "$TOOLCHAIN_URL"
   unzip -q -d arm-gnu-toolchain toolchain.zip
   rm toolchain.zip
@@ -79,4 +81,4 @@ else
   mv arm-gnu-toolchain* arm-gnu-toolchain
 fi
 
-arm-gnu-toolchain/bin/gcc --version
+arm-gnu-toolchain/bin/arm-none-eabi-gcc --version
