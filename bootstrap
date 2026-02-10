@@ -70,7 +70,7 @@ TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.
 mkdir -p $DEST
 cd $DEST
 if [ "$OS" = "windows" ]; then
-  pacman -S unzip
+  pacman -S --noconfirm unzip
   wget -O toolchain.zip "$TOOLCHAIN_URL"
   unzip -q -d arm-gnu-toolchain toolchain.zip
   rm toolchain.zip
