@@ -115,3 +115,11 @@ Here's our standard workflow.  It's meant to be reasonably light but keep us out
 1. If the previous step succeeds, request a review from someone(s) specific.
 1. Work with your reviewer.  Don't take requests for changes personally, it probably comes from a place of caring.
 1. When approved, do a Rebase and Merge.
+
+## Hardware
+We're using a RP2040-Zero 
+https://www.amazon.com/dp/B0DXL12W59
+
+## Links
+[Getting Started with Pico](https://pip-assets.raspberrypi.com/categories/610-raspberry-pi-pico/documents/RP-008276-DS-1-getting-started-with-pico.pdf?disposition=inline)
+
