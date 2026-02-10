@@ -14,33 +14,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  unit-test-ubuntu:
+  build-ubuntu:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Bootstrap
+        run: ./bootstrap
       - name: Run Tests
-        run: |
-          ./bootstrap
-          ./run-tests
+        run: ./run-tests
 
-  unit-test-windows:
+  build-windows:
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Boostrap
+        run: .\bootstrap
       - name: Run Tests
-        run: |
-          .\bootstrap
-          .\run-tests
+        run: .\run-tests
 
-  unit-test-mac:
+  build-mac:
     runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+      - name: Bootstrap
+        run: ./bootstrap
       - name: Run Tests
-        run: |
-          ./bootstrap
-          ./run-tests
+        run: ./run-tests
   
