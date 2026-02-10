@@ -6,19 +6,17 @@ set -e -o pipefail
 VERSION=15.2.rel1
 DEST="tools"
 
-if [ -d "$DEST/arm-gnu-toolchain" ]; then
-  echo "Toolchain already installed."
-  exit 0
-fi
-
-echo "Getting arm toolchain..."
-
 OS="$(uname -s)"
 case "$OS" in
   MINGW*|MSYS*|CYGWIN*)
     OS=windows
+    pacman -S --needed --noconfirm cmake make unzip
     ;;
-  Linux|Darwin)
+  Linux)
+    apt-get update && apt-get install -y cmake make
+    ;;
+  Darwin)
+    brew install cmake make
     ;;
   *)
     echo "Unsupported OS: $OS"
@@ -41,43 +39,47 @@ case "$ARCH" in
     ;;
 esac
 
-
-if [ "$OS" = "Linux" ] && [ "$ARCH" = "arm64" ]; then
-  PLATFORM="aarch64"
-  EXTENSION="tar.xz"
-
-elif [ "$OS" = "Linux" ] && [ "$ARCH" = "x86_64" ]; then
-  PLATFORM="x86_64"
-  EXTENSION="tar.xz"
-
-elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
-  PLATFORM="darwin-arm64"
-  EXTENSION="tar.xz"
-
-elif [ "$OS" = "windows" ]; then
-  PLATFORM="mingw-w64-x86_64"
-  EXTENSION="zip"
-
+if [ -d "$DEST/arm-gnu-toolchain" ]; then
+  echo "Toolchain already installed."
 else
-  echo "Unsupported arch/host-OS combination. $OS $ARCH"
-  exit 1
-fi 
+  echo "Getting arm toolchain..."
 
-BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
-TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
+  if [ "$OS" = "Linux" ] && [ "$ARCH" = "arm64" ]; then
+    PLATFORM="aarch64"
+    EXTENSION="tar.xz"
 
+  elif [ "$OS" = "Linux" ] && [ "$ARCH" = "x86_64" ]; then
+    PLATFORM="x86_64"
+    EXTENSION="tar.xz"
 
-mkdir -p $DEST
-cd $DEST
-if [ "$OS" = "windows" ]; then
-  pacman -S --noconfirm unzip
-  wget -O toolchain.zip "$TOOLCHAIN_URL"
-  unzip -q -d arm-gnu-toolchain toolchain.zip
-  rm toolchain.zip
-else
-  wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
-  # strip the folder name so other programs don't need to know the version and platform to use it
-  mv arm-gnu-toolchain* arm-gnu-toolchain
-fi
+  elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
+    PLATFORM="darwin-arm64"
+    EXTENSION="tar.xz"
 
-arm-gnu-toolchain/bin/arm-none-eabi-gcc --version
+  elif [ "$OS" = "windows" ]; then
+    PLATFORM="mingw-w64-x86_64"
+    EXTENSION="zip"
+
+  else
+    echo "No ARM toolchain for arch/host-OS combination. $OS $ARCH"
+    exit 1
+  fi 
+
+  BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
+  TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
+  mkdir -p $DEST
+  cd $DEST
+
+  if [ "$OS" = "windows" ]; then
+    wget -O toolchain.zip "$TOOLCHAIN_URL"
+    unzip -q -d arm-gnu-toolchain toolchain.zip
+    rm toolchain.zip
+  else
+    wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
+    # strip the folder name so other programs don't need to know the version and platform to use it
+    mv arm-gnu-toolchain* arm-gnu-toolchain
+  fi
+  cd ..
+fi # if toolchain already installed
+
+tools/arm-gnu-toolchain/bin/arm-none-eabi-gcc --version

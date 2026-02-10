@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [ ! -d build ]; then
-    cmake -B build
+    cmake -B build -DCMAKE_TOOLCHAIN_FILE=pico_toolchain.cmake
 fi
 cmake --build build
