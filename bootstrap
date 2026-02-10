@@ -69,10 +69,12 @@ TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.
 
 mkdir -p $DEST
 cd $DEST
-wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
-
-# strip the folder name so other programs don't need to know the version and platform to use it
-mv arm-gnu-toolchain* arm-gnu-toolchain
-
-# curl -L "$URL" -o toolchain.zip
-# unzip toolchain.zip
+if [ "$EXTENSION" = "zip" ]; then
+  wget -O toolchain.zip "$TOOLCHAIN_URL"
+  unzip -q -d arm-gnu-toolchain toolchain.zip
+  rm toolchain.zip
+else
+  wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
+  # strip the folder name so other programs don't need to know the version and platform to use it
+  mv arm-gnu-toolchain* arm-gnu-toolchain
+fi
