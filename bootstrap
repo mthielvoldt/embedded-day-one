@@ -3,7 +3,7 @@
 # If any command fails, exit immediately with the returned status of that command.
 set -e -o pipefail
 
-VERSION=15.2.Rel1
+VERSION=15.2.rel1
 DEST="tools"
 
 if [ -d "$DEST/arm-gnu-toolchain" ]; then
@@ -62,7 +62,7 @@ cd $DEST
 wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
 
 # strip the folder name so other programs don't need to know the version and platform to use it
-mv arm-gnu-toolchain-$VERSION* arm-gnu-toolchain
+mv arm-gnu-toolchain* arm-gnu-toolchain
 
 # curl -L "$URL" -o toolchain.zip
 # unzip toolchain.zip
