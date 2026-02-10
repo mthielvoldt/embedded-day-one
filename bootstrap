@@ -1,6 +1,16 @@
 #!/usr/bin/env bash
 
+# If any command fails, exit immediately with the returned status of that command.
+set -e -o pipefail
+
 VERSION=15.2.Rel1
+DEST="tools"
+
+if [ -d "$DEST/arm-gnu-toolchain" ]; then
+  echo "Toolchain already installed."
+  exit 0
+fi
+
 
 OS="$(uname -s)"
 ARCH="$(uname -m)"
@@ -47,12 +57,12 @@ BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binre
 
 TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
 
-ASC_URL="$TOOLCHAIN_URL.asc"
+mkdir -p $DEST
+cd $DEST
+wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
 
-mkdir -p test
-wget -O "test/$PLATFORM.asc" "$ASC_URL"
+# strip the folder name so other programs don't need to know the version and platform to use it
+mv arm-gnu-toolchain-$VERSION* arm-gnu-toolchain
 
-
-# curl -L "$URL" | tar -xJ
 # curl -L "$URL" -o toolchain.zip
 # unzip toolchain.zip
