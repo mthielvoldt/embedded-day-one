@@ -2,7 +2,7 @@
 
 set -e
 
-if [ "$MSYSTEM" != "MINGW64" ]; then
+if [[ -v MSYSTEM && $MSYSTEM != "MINGW64" ]]; then
   echo "Please run generate from the MINGW64 shell." 1>&2
   exit 1
 fi
