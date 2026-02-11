@@ -8,15 +8,24 @@ DEST="tools"
 
 OS="$(uname -s)"
 case "$OS" in
-  MINGW*|MSYS*|CYGWIN*)
+  MSYS*)
     OS=windows
-    pacman -S --needed --noconfirm cmake make unzip python git mingw-w64-x86_64-gcc
+    pacman -S --needed --noconfirm \
+      mingw-w64-x86_64-cmake \
+      mingw-w64-x86_64-make \
+      mingw-w64-x86_64-gcc \
+      mingw-w64-x86_64-python \
+      unzip git
     ;;
   Linux)
     apt-get update && apt-get install -y cmake make
     ;;
   Darwin)
     brew install cmake make
+    ;;
+  MINGW*|CYGWIN*)
+    echo "Wrong MSYS shell: $OS  Please run from MSYS shell." 1>&2
+    exit 1
     ;;
   *)
     echo "Unsupported OS: $OS"

@@ -1,1 +1,1 @@
-call windows-shim.cmd generate
+call windows-shim.cmd generate -mingw

@@ -2,10 +2,14 @@
 
 set -e
 
+if [ "$MSYSTEM" != "MINGW64" ]; then
+  echo "Please run generate from the MINGW64 shell." 1>&2
+  exit 1
+fi
 
-export PATH="$(pwd)/tools/arm-guu-toolchain/bin:$PATH"
+export PATH="$(pwd)/tools/arm-gnu-toolchain/bin:$PATH"
 
 if [ ! -d build ]; then
     cmake -B build
 fi
-cmake --build build --parallel
+cmake --build build
