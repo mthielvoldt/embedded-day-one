@@ -26,6 +26,8 @@ jobs:
           key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Bootstrap
         run: ./bootstrap
+      - name: build
+        run: ./generate
       - name: Run Tests
         run: ./run-tests
 
@@ -41,6 +43,8 @@ jobs:
           key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Boostrap
         run: .\bootstrap
+      - name: build
+        run: .\generate
       - name: Run Tests
         run: .\run-tests
 
@@ -56,6 +60,8 @@ jobs:
           key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
       - name: Bootstrap
         run: ./bootstrap
+      - name: build
+        run: ./generate
       - name: Run Tests
         run: ./run-tests
   
