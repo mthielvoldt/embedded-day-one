@@ -10,7 +10,7 @@ OS="$(uname -s)"
 case "$OS" in
   MINGW*|MSYS*|CYGWIN*)
     OS=windows
-    pacman -S --needed --noconfirm cmake make unzip python
+    pacman -S --needed --noconfirm cmake make unzip python git
     ;;
   Linux)
     apt-get update && apt-get install -y cmake make
