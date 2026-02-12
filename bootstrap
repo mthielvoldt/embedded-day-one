@@ -5,20 +5,18 @@ set -e -o pipefail
 
 VERSION=15.2.rel1
 DEST="tools"
-PYTHON="python3"
 
 OS="$(uname -s)"
 case "$OS" in
   MSYS*)
     OS=windows
-    PYTHON="python"
     pacman -S --needed --noconfirm \
       mingw-w64-x86_64-cmake \
       mingw-w64-x86_64-make \
       mingw-w64-x86_64-gcc \
       mingw-w64-x86_64-python \
       mingw-w64-x86_64-python-virtualenv \
-      unzip git
+      unzip git python python-virtualenv
     ;;
   Linux)
     sudo apt-get update
@@ -65,7 +63,7 @@ cd $DEST
 if [ -d "venv" ]; then
   echo "Python virtual environment already there"
 else
-  $PYTHON -m venv venv
+  python3 -m venv venv
 fi
 
 source venv/bin/activate
