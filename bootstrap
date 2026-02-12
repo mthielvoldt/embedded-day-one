@@ -15,10 +15,18 @@ case "$OS" in
       mingw-w64-x86_64-make \
       mingw-w64-x86_64-gcc \
       mingw-w64-x86_64-python \
+      mingw-w64-x86_64-python-virtualenv \
       unzip git
     ;;
   Linux)
-    apt-get update && apt-get install -y cmake make
+    sudo apt-get update
+    sudo apt-get install -y cmake make
+    # Add user to dialout group so they can read USB devices
+    if [[ ! $(groups) =~ "dialout" ]]; then
+      echo "Your user $(whoami), is not a member of the dialout group.  You'll need that to connect to USB devices.
+      You will need to log out and back in for this change to take effect."
+      sudo usermod -a -G dialout $(whoami)
+    fi
     ;;
   Darwin)
     brew install cmake make
@@ -48,7 +56,22 @@ case "$ARCH" in
     ;;
 esac
 
-if [ -d "$DEST/arm-gnu-toolchain" ]; then
+mkdir -p $DEST
+cd $DEST
+
+## -- Python Virtual Environment --
+if [ -d "venv" ]; then
+  echo "Python virtual environment already there"
+else
+  python3 -m venv venv
+fi
+
+source venv/bin/activate
+python -m pip install pyserial pytest
+
+
+## -- TOOLCHAIN --
+if [ -d "arm-gnu-toolchain" ]; then
   echo "Toolchain already installed."
 else
   echo "Getting arm toolchain..."
@@ -76,8 +99,6 @@ else
 
   BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
   TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
-  mkdir -p $DEST
-  cd $DEST
 
   if [ "$OS" = "windows" ]; then
     wget -O toolchain.zip "$TOOLCHAIN_URL"
