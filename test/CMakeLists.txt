@@ -14,18 +14,18 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(CppUTest)
 
-# Fakes and mocks subdirectories
-add_subdirectory(fakes/serial) # -> provides "serial" lib.
-
 add_subdirectory(../core core)
 
+# Fakes subdirectories
+add_subdirectory(fakes/transport) # -> provides transport_fake lib.
+
 add_executable(zero_test
-  src/protocol_test.cpp
+  src/rpc_test.cpp
   src/test_main.cpp
 )
 
 target_link_libraries(zero_test
   CppUTest
   CppUTestExt
-  serial
+  transport_fake
 )
