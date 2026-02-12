@@ -46,15 +46,15 @@ First steps to a building firmware The Easier Way™
 1. Measure up the project
 1. Make hard choices
 1. Close the loop with CI
-1. Add a unit test
-1. Add your embedded toolchain
+1. Get it building for everyone
+1. Hook up unit tests
 1. Automate an on-hardware test
 1. Release it into the wild
 
 ---
 
 ## Glossary
-**CI**: Continuous Integration: A development process involving requent contributions to a code repository, which trigger tests in the cloud to reveal issues early
+**CI**: Continuous Integration: A development process involving frequent contributions to a code repository, which trigger tests in the cloud to reveal issues early
 
 **EE**: Electrical engineer(ing)
 
@@ -154,14 +154,20 @@ First steps to a building firmware The Easier Way™
     <tr>
         <td><h4>Tests</h4></td>
         <td>
-            - Demos are fairly low-stress<br>
-            - Regressions are rare<br>
-            - Refactors appear in most PRs
+            <ul>
+                <li>Demos are fairly low-stress</li>
+                <li>Regressions are rare</li>
+                <li>Engineers are confident making big changes</li>
+                <li>Tests are friends</li>
+            </ul>
         </td>
         <td>
-            - Demos are high-stress<br>
-            - Regressions are commonplace<br>
-            - Engineers avoid refactoring code that “already works”
+            <ul>
+                <li>Demos are high-stress</li>
+                <li>Regressions are commonplace</li>
+                <li>Engineers avoid refactoring code that “already works”</li>
+                <li>Tests are a hassle (or food)</li>
+            </ul>
         </td>
     </tr>
     <tr>
@@ -229,7 +235,7 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
 
 ---
 
-## Choices: When do we do Quality Control?
+## Choices: When do we test?
 ### Options
 1. We test things when we think we should (ad-hoc)
 2. We use PRs as a vehicle for driving tests before affecting `main`
@@ -240,6 +246,7 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
 - Humans *will* forget, especially if modules get too inter-connected
 - It takes much longer to find a bug that was written long ago
 - We can't hole-up and study modern testing paradigms for 6 months
+- A slow test will be avoided or eaten
 ### Decision ⇨ *1 (as needed), 2 (PR), and 3 (main)*
 
 ---
