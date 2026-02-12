@@ -1,3 +1,5 @@
 #!/usr/bin/env bash
 
-echo "Tests passed, (though no real ones were run)."
+cmake -B test/build -S test && \
+  cmake --build test/build --target zero_test && \
+  echo "Running zero_test" && test/build/zero_test
