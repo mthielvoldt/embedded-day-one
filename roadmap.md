@@ -2,20 +2,22 @@
 marp: true
 theme: default
 class: invert
+paginate: true
 ---
 <style>
 section {
     font-size: 24px;
 }
+.foot {
+    position: absolute;
+    bottom: 40px;
+    font-size: 16px;
+    color: #999;
+}
 img[alt~="top-right"] {
     position: absolute;
     top: 120px;
     right: 60px;
-}
-table.big-table {
-    height: 100%;
-    width: 100%;
-    font-size: 13px;
 }
 .done {
     text-decoration: line-through;
@@ -23,19 +25,25 @@ table.big-table {
 }
 </style>
 
+
 # Embedded Devops on Day One
 First steps to a building firmware The Easier Way™
+
+<div class="foot">
+Slides accessible: github.com/mthielvoldt/embedded-day-one/blob/main/roadmap.md<br>
+Before we start, please write your github username on the whiteboard
+</div>
 
 ---
 
 ## Who's Presenting
-### Mike Thielvoldt ![top-right w:150](https://mgtfirmware.com/logo6-256.png)
+### [Mike Thielvoldt](https://www.linkedin.com/in/mike-thielvoldt/) ![top-right w:150](https://mgtfirmware.com/logo6-256.png)
 
 - 15 Years at startups with headcounts from [1 - 250+]
 - Industries: [green tech](https://www.gradientcomfort.com/), [energy](https://lunarenergy.com), [powersport](), [special effects](https://livesparkfire.com), [Burning Man shit](https://www.lepidodgera.com/)
 - Started as a Mechanical Engineer
 - Led firmware efforts with up to 6-ish contributors
-- Currently a freelance firmware: [MGT Firmware](https://mgtfirmware.com)
+- Currently a freelance firmware engineer: [MGT Firmware](https://mgtfirmware.com)
 
 **Translation ➔** I have tech-debt battle scars, but fully accept that startups need to be lean and fast.
 
@@ -48,7 +56,7 @@ First steps to a building firmware The Easier Way™
 1. Close the loop with CI
 1. Get it building for everyone
 1. Hook up unit tests
-1. Automate an on-hardware test
+1. Automate on-hardware test
 1. Release it into the wild
 
 ---
@@ -148,8 +156,8 @@ First steps to a building firmware The Easier Way™
     </tr>
     <tr>
         <td><h4>Onboarding</h4></td>
-        <td>New engineers push commits early and write tests</td>
-        <td>New engineers hesitate to push commits and share work</td>
+        <td>New engineers confidently make first PRs</td>
+        <td>New engineers delay/avoid making PRs</td>
     </tr>
     <tr>
         <td><h4>Tests</h4></td>
@@ -157,22 +165,22 @@ First steps to a building firmware The Easier Way™
             <ul>
                 <li>Demos are fairly low-stress</li>
                 <li>Regressions are rare</li>
-                <li>Engineers are confident making big changes</li>
-                <li>Tests are friends</li>
+                <li>Engineers are confident changing things</li>
+                <li>Tests are friends, not food</li>
             </ul>
         </td>
         <td>
             <ul>
                 <li>Demos are high-stress</li>
                 <li>Regressions are commonplace</li>
-                <li>Engineers avoid refactoring code that “already works”</li>
-                <li>Tests are a hassle (or food)</li>
+                <li>Engineers avoid touching code that “already works”</li>
+                <li>Tests are a hassle: grumbles + sighs</li>
             </ul>
         </td>
     </tr>
     <tr>
         <td><h4>Release</h4></td>
-        <td>EEs are comfortable self-serving new FW versions</td>
+        <td>Other teams (EEs) are comfortable self-serving new FW versions</td>
         <td>FW team members frequently asked “where to get firmware”</td>
     </tr>
 </table>
@@ -181,61 +189,63 @@ First steps to a building firmware The Easier Way™
 
 ## 2. Choices: Flavor of version control (scm)
 ### Options
-- No version control, manual name-mangling 
+- Mnual name-mangling 
 - Google docs
 - Git (or mercurial)
 - Svn (and other live-connection version control)
 ### Driving Forces
 - As of tonight, this is a group project
-- We're writing code: it's text-based and correctness matters
+- Code: is unforgiving of errors
 - We want ability to step through history and see diff
 - Learning is tolerable: it's what we're here for
 ### Decision ⇨ *Git (in the terminal)*
 
 ---
 
-## Choices: Where to put `origin`?
+## 2. Choices: Where to put `origin`?
 ### Options (among many)
-- Github  *huge community, simple automation*
-- Gitlab  *self-hosting friendly, powerful CI/CD*
-- Self-hosted  *for regulatory compliance*
+- Github:  *huge community, simple automation*
+- Gitlab:  *self-hosting friendly, powerful CI/CD*
+- Self-hosted:  *for regulatory compliance*
 ### Driving Forces
-- Some of us may have already had an account = convenient
-- We want them-hosted CI runners, and simple pipelines for now
+- Making a popular choice can make onboarding faster
+- We want them-hosted CI runners to save us effort
 - Mike happens to know github actions best
 ### Decision ⇨ *Github*
 
 ---
 
-## Choices: How should we use Git?
+## 2. Choices: How should we use Git?
 ### Options
-- Everyone pushes to `main`, or does their own thing.
-- [Trunk-based](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development) Work happens in ephemeral topic branches with only one long-lived branch: `main`.
+- Anarchy
+  - Everyone pushes to `main`, or does their own thing
+- [Trunk-based](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development)
+  - Work happens in ephemeral topic branches with only one long-lived branch: `main`
 - [Gitflow](https://www.atlassian.com/git/tutorials/comparing-workflows/gitflow-workflow)
   - Ephemeral topic branches, and 3 or more long-running branches: `main`, `develop`, `release`, [ `hotfix`… ]
-  - New code flows (eventually) from topic > `develop` > `release` > `main` with progressively more time-consuming tests or reviews at each step.
+  - New code flows (eventually) from topic > `develop` > `release` > `main` with progressively more time-consuming tests or reviews at each step
 
 ---
 
-## Choices: How should we use Git? \[continued\]
+## 2. Choices: How should we use Git? \[continued\]
 Aside: Trunk-based with ineffective tests is hell for QA teams
 
 ![](images/git-workflows-2.png)
 
 ---
 
-## Choices: How should we use Git? \[continued\]
+## 2. Choices: How should we use Git? \[continued\]
 
 ### Driving Forces
-- Our coders do their own QA ➔ Simple and focused should work best
+- We don't have a separate QA team (yet)
 - We’d prefer to not have any time-consuming manual tests ➔ so let's not build them a shelter
-- We risk merge-hell with several long-running branches.
+- Having only one long-running branch `main` avoids merge-hell
 
 ### Decision ⇨ *Trunk-based flow*
 
 ---
 
-## Choices: When do we test?
+## 2. Choices: When do we test?
 ### Options
 1. We test things when we think we should (ad-hoc)
 2. We use PRs as a vehicle for driving tests before affecting `main`
@@ -247,63 +257,107 @@ Aside: Trunk-based with ineffective tests is hell for QA teams
 - It takes much longer to find a bug that was written long ago
 - We can't hole-up and study modern testing paradigms for 6 months
 - A slow test will be avoided or eaten
-### Decision ⇨ *1 (as needed), 2 (PR), and 3 (main)*
+### Decision ⇨ *1 (as needed) + 2 (PR) + 3 (main)*
 
 ---
 
-## Choices: What test infra should we build now?
+## 2. Choices: What tests should we build now?
 ### Options
 1. Unit tests that run on host
 2. Code builds for a target CPU
 3. Tests on emulated hardware or circuit simulation
 4. Hardware-in-the-loop (HIL) tests
 ### Driving Forces
-- If hardware isn't available, 3 and 4 aren't doable
+- If hardware isn't available, 4 isn't doable
 - If hardware designs aren't stable, 3 and 4 are perishable efforts/maintenance items
-- If our HW doesn't have a TCP stack, we either need gateway hardware, or to do this outside CI
-- Simulation takes up-front effort; you need evidence it represents reality.
-### Decision ⇨ *Start with 1, 2.  Make 4 a reach-goal*
+- If our HW isn't internet-connected, we either add a gateway, or do this outside CI
+- Simulation takes up-front effort; you need evidence it represents reality
+### Decision ⇨ *Start with 1 + 2.  Make 4 a reach-goal*
 
 ---
 
-## Choices: How should customers access new FW versions?
+## 2. Choices: How should customers access new FW versions?
 ### Options
-1. Ask a FW engineer (the friendly one)
+1. Ask the friendly FW engineer to slack you a binary
+3. Set up workstation to build source code, pick the branch with the coolest name
 2. Buy "*the good shit*" off the black market the EE team set up
-3. Download it from Github releases
-4. Set up workstation to build code themselves, pick the branch with the coolest name
+4. Download it from Github releases
 
 ### Driving Forces
-- The difficulty you create for others gets reflected back at you or your FW colleagues.
-- Bugs will still happen.  If our release process is light-weight, we can respond quickly when our customers encounter them.  That'll build inter-team trust.
+- Non-release binaries that escape our laptops = pointeless bug hunts
+- We need to make this process easy for others if we want it to be used
+- We want a quick release process so we can be responsive to other teams' needs
 ### Decision ⇨ *Set up github releases*
 
 ---
 
-## A To-do list
+## 2. Choices: What OS are we developing on?
+### Options
+1. Force everyone to use the same OS
+2. Use docker containers
+3. Support native development on multiple OS's
+
+### Driving Forces
+- This group has strong preferences/opinions
+- Docker doesn't do USB*, effort to learn, not compatible with everything, extra layer
+
+### Decision ⇨ *Mac + Win + Ubuntu, no Docker (challenge mode enabled)*
+
+---
+
+## 2. Choices summarized
 <style scoped>
-  section {
+  h2 {
+    position: relative;
+    top: -30px;
+    margin-bottom: -30px;
   }
   p {
     font-size: 22px;
   }
+  .icon {
+    position: absolute;
+    top: 40px;
+    right: 70px;
+    font-size: 2.5em;
+  }
+  table {
+    height: 100%;
+    width: 100%;
+    font-size: 13px;
+}
 </style>
 
 From here on, we'll move down this table using our PR Process.
 
-<table class="big-table">
+<div class="icon">🚀</div>
+
+<table>
     <tr>
-        <th>Number</th>
+        <th>Step</th>
         <th>Deliverable</th>
         <th>Acceptance Criteria</th>
+        <th>Your Action Items</th>
     </tr>
     <tr class="">
         <td>1</td>
         <td>Using Git</td>
         <td>
             <ul>
-                <li class="done">Onboarding doc covers git
-                <li>Works for full team
+                <li class="done">Onboarding doc covers git</li>
+                <li>Works for full team</li>
+            </ul>
+        </td>
+        <td rowspan="3">
+            <ul>
+                <li>Sign in to <a href="https://github.com">Github</a></li>
+                <li>Put your Github username on whiteboard (or give to Melinda)</li>
+                <li>Accept the project invite (in your email)</li>
+            </ul>
+            At the bottom of <a href="https://github.com/mthielvoldt/embedded-day-one"><code>github.com/mthielvoldt/embedded-day-one</code></a>
+            <ul>
+                <li>Follow "Manual Software Installs" steps</li>
+                <li>Follow "Initial Config" steps</li>
             </ul>
         </td>
     </tr>
@@ -312,8 +366,8 @@ From here on, we'll move down this table using our PR Process.
         <td>Using Github</td>
         <td>
             <ul>
-                <li class="done">Docs cover getting access
-                <li>Everyone can push a branch
+                <li class="done">Docs cover getting access</li>
+                <li>Everyone can push a branch</li>
             </ul>
         </td>
     </tr>
@@ -322,8 +376,8 @@ From here on, we'll move down this table using our PR Process.
         <td>Trunk-based flow</td>
         <td>
             <ul>
-                <li class="done">Docs cover PR process
-                <li>Everyone has a look
+                <li class="done">Docs cover PR process</li>
+                <li>Everyone has a look</li>
             </ul>
         </td>
     </tr>
@@ -336,51 +390,76 @@ From here on, we'll move down this table using our PR Process.
                 <li>We see check-marks on main and PRs</li>
             </ul>
         </td>
+        <td>
+            <ul>
+                <li>Look at PR <a href="https://github.com/mthielvoldt/embedded-day-one/pull/1">#1</a></li>
+                <li>Switch to that branch locally <code>git switch step-4-local-scripts</code></li>
+                <li>Refer to <code>.github/workflows/test.yml</code> to run tests on your platform
+            </ul>
+        </td>
     </tr>
     <tr class="">
         <td>5</td>
         <td>Build checks for target MCU</td>
         <td>
-            - <code>bootstrap</code> Installs cross-compiler.<br>
-            - <code>generate</code> script builds the project locally <br>
-            - <code>generate</code> builds in CI.
+            <ul>
+                <li><code>bootstrap</code> installs cross-compiler</li>
+                <li><code>generate</code> script builds the project locally</li>
+                <li><code>generate</code> builds in CI</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Look at PR <a href="https://github.com/mthielvoldt/embedded-day-one/pull/3">#3</a> then <a href="https://github.com/mthielvoldt/embedded-day-one/pull/2">#2</a>, following along locally with <code>git switch ...</code></li>
+                <li>Refer to <code>.github/workflows/test.yml</code> to bootstrap and build code
+            </ul>
         </td>
     </tr>
     <tr class="">
         <td>6</td>
         <td>Unit Tests</td>
         <td>
-            - <code>bootstrap.sh</code> installs unit test prerequisites<br>
-            - <code>run-tests</code> compiles and tests one .c file
+            <ul>
+                <li><code>bootstrap</code> installs unit test prerequisites</li>
+                <li><code>run-tests</code> compiles and tests one .c file</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Look at PR <a href="https://github.com/mthielvoldt/embedded-day-one/pull/4">#4</a></li>
+                <li>Run the unit tests.  Maybe try writing one!</li>
+            </ul>
         </td>
     </tr>
     <tr class="">
         <td>7</td>
         <td>On-hardware automated test</td>
         <td>
-            - Code that enables comms to/from MCU.<br>
-            - A scripted test that checks for echo.
+            <ul>
+                <li>Code that enables comms to/from MCU</li>
+                <li>A scripted test that checks for echo</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Look at PR <a href="https://github.com/mthielvoldt/embedded-day-one/pull/5">#5</a></li>
+                <li>Plug into PCB and use <code>hw-test</code> to test on-hardware</li>
+            </ul>
         </td>
     </tr>
     <tr class="">
         <td>8</td>
         <td>Github releases</td>
         <td>
-            - Make a release that exports build artifacts.<br>
-            - Add flashing instructions.
+            <ul>
+                <li>Make a release that exports build artifacts</li>
+                <li>Add flashing instructions</li>
+            </ul>
+        </td>
+        <td>
+            <ul>
+                <li>Dogfood installing a released binary</li>
+            </ul>
         </td>
     </tr>
 </table>
-
----
-
-## Steps 1-3 Manual setup
-Requiring a little manual work up front can be expedient. 
-
-- Follow Manual Installs and Initial Config in `onboarding.md`
-- Test read access to repo:
-    ```git clone git@github.com:mthielvoldt/embedded-day-one.git``` 
-- Test write access by pushing a new branch:
-    ```git switch -c <unique-branch-name> && git push -u origin HEAD```
-- Review Pull Request Process, align
-
