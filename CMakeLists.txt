@@ -5,19 +5,22 @@ set(PICO_SDK_PATH ${CMAKE_CURRENT_LIST_DIR}/deps/pico-sdk)
 set(PICO_TOOLCHAIN_PATH ${CMAKE_CURRENT_LIST_DIR}/tools/arm-gnu-toolchain/bin)
 include(deps/pico-sdk/external/pico_sdk_import.cmake)
 
-project(test_project C CXX ASM)
+project(example_fw C CXX ASM)
 
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
 pico_sdk_init()
 
-add_executable(test
-  src/main.c
+add_subdirectory(core)
+
+add_executable(firmware
+  firmware/main.c
+  firmware/transport_pico.c
 )
 
-# pico_enable_stdio_usb(test 1)
-# pico_enable_stdio_uart(test 1)
-pico_add_extra_outputs(test)
+pico_enable_stdio_usb(firmware 1)
+pico_enable_stdio_uart(firmware 0)
+pico_add_extra_outputs(firmware)
 
-target_link_libraries(test pico_stdlib)
+target_link_libraries(firmware pico_stdlib core)
