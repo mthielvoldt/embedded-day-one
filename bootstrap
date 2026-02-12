@@ -5,11 +5,13 @@ set -e -o pipefail
 
 VERSION=15.2.rel1
 DEST="tools"
+PYTHON="python3"
 
 OS="$(uname -s)"
 case "$OS" in
   MSYS*)
     OS=windows
+    PYTHON="python"
     pacman -S --needed --noconfirm \
       mingw-w64-x86_64-cmake \
       mingw-w64-x86_64-make \
@@ -63,7 +65,7 @@ cd $DEST
 if [ -d "venv" ]; then
   echo "Python virtual environment already there"
 else
-  python3 -m venv venv
+  $PYTHON -m venv venv
 fi
 
 source venv/bin/activate
