@@ -1,0 +1,40 @@
+{
+  "version": 4,
+  "configurations": [
+    {
+      "name": "test",
+      "compilerPath": "/bin/gcc",
+      "compilerArgs": [],
+      "includePath": [
+        "build/generated/pico_base",
+        "core",
+        "deps/pico-sdk/src/common/pico_stdlib_headers/include",
+        "deps/pico-sdk/src/common/pico_base_headers/include",
+        "deps/pico-sdk/src/rp2040/pico_platform/include",
+        "deps/pico-sdk/src/rp2_common/pico_platform_compiler/include",
+        "deps/pico-sdk/src/rp2040/hardware_regs/include",
+        "deps/pico-sdk/src/rp2_common/pico_platform_sections/include",
+        "deps/pico-sdk/src/rp2_common/pico_platform_panic/include",
+        "deps/pico-sdk/src/rp2_common/pico_platform_common/include",
+        "deps/pico-sdk/src/rp2_common/pico_stdio/include",
+        "deps/pico-sdk/src/common/pico_time/include",
+        "deps/pico-sdk/src/rp2_common/hardware_timer/include",
+        "deps/pico-sdk/src/rp2040/hardware_structs/include",
+        "deps/pico-sdk/src/rp2_common/hardware_base/include",
+        "deps/pico-sdk/src/rp2350/hardware_structs/include",
+        "deps/pico-sdk/src/rp2350/hardware_regs/include",
+        "deps/pico-sdk/src/rp2_common/hardware_gpio/include",
+        "deps/pico-sdk/src/rp2_common/hardware_irq/include",
+        "deps/pico-sdk/src/rp2_common/hardware_uart/include",
+        "deps/pico-sdk/src/rp2_common/hardware_resets/include",
+        "test",
+        "test/build/_deps/cpputest-src/include",
+        "test/fakes/transport"
+      ],
+      "forcedInclude": [],
+      "cStandard": "c11",
+      "cppStandard": "c++11",
+      "defines": []
+    }
+  ]
+}
