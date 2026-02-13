@@ -8,11 +8,11 @@ DEST="tools"
 
 OS="$(uname -s)"
 case "$OS" in
-  MSYS*)
+  MINGW*)
     OS=windows
     pacman -S --needed --noconfirm \
       mingw-w64-x86_64-cmake \
-      mingw-w64-x86_64-make \
+      mingw-w64-x86_64-ninja \
       mingw-w64-x86_64-gcc \
       mingw-w64-x86_64-python \
       unzip git
@@ -23,8 +23,8 @@ case "$OS" in
   Darwin)
     brew install cmake make
     ;;
-  MINGW*|CYGWIN*)
-    echo "Wrong MSYS shell: $OS  Please run from MSYS shell." 1>&2
+  MSYS*|CYGWIN*)
+    echo "Wrong MSYS shell: $OS  Please run from MINGW64 shell." 1>&2
     exit 1
     ;;
   *)

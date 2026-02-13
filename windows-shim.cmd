@@ -16,15 +16,7 @@ if "%~1"=="" (
   exit /b 2
 )
 
-if "%~2"=="" (
-  set MSYS_SHELL=-msys
-) else (
-  set MSYS_SHELL=%~2
-)
-
 set BASH_SCRIPT=%~1
 
-REM Capture current directory in Windows form.
-set WIN_WORKING_DIR=%CD%
 
-"%LAUNCHER%" %MSYS_SHELL% -here -defterm -no-start -c "exec ./%BASH_SCRIPT%"
+"%LAUNCHER%" -mingw -here -defterm -no-start -c "exec ./%BASH_SCRIPT%"
