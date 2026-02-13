@@ -1,0 +1,94 @@
+#!/usr/bin/env bash
+
+# If any command fails, exit immediately with the returned status of that command.
+set -e -o pipefail
+
+VERSION=15.2.rel1
+DEST="tools"
+
+OS="$(uname -s)"
+case "$OS" in
+  MINGW*)
+    OS=windows
+    pacman -S --needed --noconfirm \
+      mingw-w64-x86_64-cmake \
+      mingw-w64-x86_64-ninja \
+      mingw-w64-x86_64-gcc \
+      mingw-w64-x86_64-python \
+      unzip git
+    ;;
+  Linux)
+    apt-get update && apt-get install -y cmake make
+    ;;
+  Darwin)
+    brew install cmake make
+    ;;
+  MSYS*|CYGWIN*)
+    echo "Wrong MSYS shell: $OS  Please run from MINGW64 shell." 1>&2
+    exit 1
+    ;;
+  *)
+    echo "Unsupported OS: $OS"
+    exit 1
+    ;;
+esac
+
+
+ARCH="$(uname -m)"
+case "$ARCH" in
+  x86_64|amd64)
+    ARCH=x86_64
+    ;;
+  aarch64|arm64)
+    ARCH=arm64
+    ;;
+  *)
+    echo "Unsupported architecture: $ARCH"
+    exit 1
+    ;;
+esac
+
+if [ -d "$DEST/arm-gnu-toolchain" ]; then
+  echo "Toolchain already installed."
+else
+  echo "Getting arm toolchain..."
+
+  if [ "$OS" = "Linux" ] && [ "$ARCH" = "arm64" ]; then
+    PLATFORM="aarch64"
+    EXTENSION="tar.xz"
+
+  elif [ "$OS" = "Linux" ] && [ "$ARCH" = "x86_64" ]; then
+    PLATFORM="x86_64"
+    EXTENSION="tar.xz"
+
+  elif [ "$OS" = "Darwin" ] && [ "$ARCH" = "arm64" ]; then
+    PLATFORM="darwin-arm64"
+    EXTENSION="tar.xz"
+
+  elif [ "$OS" = "windows" ]; then
+    PLATFORM="mingw-w64-x86_64"
+    EXTENSION="zip"
+
+  else
+    echo "No ARM toolchain for arch/host-OS combination. $OS $ARCH"
+    exit 1
+  fi 
+
+  BASE_URL="https://developer.arm.com/-/media/Files/downloads/gnu/${VERSION}/binrel"
+  TOOLCHAIN_URL="$BASE_URL/arm-gnu-toolchain-${VERSION}-${PLATFORM}-arm-none-eabi.$EXTENSION"
+  mkdir -p $DEST
+  cd $DEST
+
+  if [ "$OS" = "windows" ]; then
+    wget -O toolchain.zip "$TOOLCHAIN_URL"
+    unzip -q -d arm-gnu-toolchain toolchain.zip
+    rm toolchain.zip
+  else
+    wget -O - "$TOOLCHAIN_URL" | tar -xJ -f -
+    # strip the folder name so other programs don't need to know the version and platform to use it
+    mv arm-gnu-toolchain* arm-gnu-toolchain
+  fi
+  cd ..
+fi # if toolchain already installed
+
+tools/arm-gnu-toolchain/bin/arm-none-eabi-gcc --version

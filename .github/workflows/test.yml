@@ -7,35 +7,70 @@ on:
     branches: 
       - 'main'
 
-  # Run on updates to pull requests that target main
+  # Run on updates to pull requests
   pull_request:
-    branches:
-      - 'main'
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
 jobs:
-  unit-test-ubuntu:
+  build-ubuntu:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
+      - name: Bootstrap
+        run: ./bootstrap
+      - name: build
+        run: ./generate
       - name: Run Tests
         run: ./run-tests
 
-  unit-test-windows:
+  build-windows:
     runs-on: windows-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
+      - name: Boostrap
+        run: .\bootstrap
+      - name: build
+        run: .\generate
       - name: Run Tests
         run: .\run-tests
 
-  unit-test-mac:
+  build-mac:
     runs-on: macos-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          submodules: recursive
+          fetch-depth: 1
+      - name: Cache tools
+        uses: actions/cache@v4
+        with:
+          path: tools
+          key: tools-${{ runner.os }}-${{ hashFiles('bootstrap') }}
+      - name: Bootstrap
+        run: ./bootstrap
+      - name: build
+        run: ./generate
       - name: Run Tests
         run: ./run-tests
+  
