@@ -1,20 +1,10 @@
 {
     "terminal.integrated.profiles.windows": {
         "MinGW": {
-            "path": "C:\\msys64\\usr\\bin\\bash.exe",
-            "args": ["--login", "-i"],
+            "path": "C:\\msys64\\msys2_shell.cmd",
+            "args": [ "-mingw", "-here", "-defterm", "-no-start"],
             "env": {
                 "MSYSTEM": "MINGW64",
-                "CHERE_INVOKING": "1",
-                // "MSYS2_PATH_TYPE": "inherit"
-            },
-            "icon": "terminal-bash"
-        },
-        "MSYS2": {
-            "path": "C:\\msys64\\usr\\bin\\bash.exe",
-            "args": ["--login", "-i"],
-            "env": {
-                "MSYSTEM": "MSYS2",
                 "CHERE_INVOKING": "1",
                 // "MSYS2_PATH_TYPE": "inherit"
             },
