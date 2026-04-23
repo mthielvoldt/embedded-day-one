@@ -1,1 +1,1 @@
-call windows-shim.cmd run-tests
+call windows-shim.cmd run-tests -mingw
