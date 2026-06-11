@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+## CMake is a two step tool.  First it "configures" the build system, then cmake invokes the
+## generator (Ninja, make) to actually build the binaries. 
 cmake -B test/build -S test && \
   cmake --build test/build --target zero_test && \
   echo "Running zero_test" && test/build/zero_test
